@@ -21,6 +21,11 @@ var gulpSequence = require( 'gulp-sequence' );
 var replace = require( 'gulp-replace' );
 var autoprefixer = require( 'gulp-autoprefixer' );
 
+import babelify from 'babelify';
+import browserify from 'browserify';
+import source from 'vinyl-source-stream';
+import buffer from 'vinyl-buffer';
+
 // Configuration file to keep your code DRY
 var cfg = require( './gulpconfig.json' );
 var paths = cfg.paths;
@@ -243,12 +248,12 @@ gulp.task( 'dist-product', ['clean-dist-product'], function() {
 gulp.task( 'clean-dist-product', function() {
   return del( [paths.distprod + '/**'] );
 } );
- 
-// Gulp task to minify JavaScript files
-// gulp.task('scripts', function() {
-//     return gulp.src('./src/js/*.js')
-//       // Minify the file
-//       .pipe(uglify())
-//       // Output
-//       .pipe(gulp.dest('./js'))
-//   });
+
+gulp.task('scripts', () => {
+    browserify(['js/custom-javascript.js', 'myModule.js'])
+    .transform(babelify)
+    .bundle()
+    .pipe(source('bundle.js')
+    .pipe(gulp.dest('dist/scripts'))
+    .pipe(buffer()))     // You need this if you want to continue using the stream with other plugins
+});
