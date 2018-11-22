@@ -51,13 +51,5 @@
     "run-sequence": "^2.2.1",
     "understrap": "^0.8.6",
     "undescores-for-npm": "^1.0.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.1.6",
-    "@babel/preset-env": "^7.1.6",
-    "browserify": "^16.2.3",
-    "gulp-babel": "^8.0.0",
-    "vinyl-buffer": "^1.0.1",
-    "vinyl-source-stream": "^2.0.0"
   }
 }

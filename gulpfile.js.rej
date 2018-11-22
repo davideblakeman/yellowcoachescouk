@@ -1,0 +1,15 @@
+diff a/gulpfile.js b/gulpfile.js	(rejected hunks)
+@@ -249,2 +249,11 @@
+   return del( [paths.distprod + '/**'] );
+ } );
+\ No newline at end of file
++
++gulp.task('scripts', () => {
++    browserify(['js/custom-javascript.js', 'myModule.js'])
++    .transform(babelify)
++    .bundle()
++    .pipe(source('bundle.js')
++    .pipe(gulp.dest('dist/scripts'))
++    .pipe(buffer()))     // You need this if you want to continue using the stream with other plugins
++});
+\ No newline at end of file

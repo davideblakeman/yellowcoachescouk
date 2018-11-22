@@ -4090,7 +4090,7 @@
         
             success : function( response )
             {
-                console.log( response );
+                // console.log( response );
                 window.location = '/basket/';
             }
         
@@ -4121,22 +4121,25 @@
 
         $.post( yellowcoachescouk_ajax_object.ajax_url, data, function( output )
         {
-            console.log( output );
-            if ( output.success !== undefined && output.success === false )
-            {
-                return;
-            }
-
             var output = $.parseJSON( output );
+            var error = '<h2 class="yellowcoachescouk-error">ERROR: </h2>Something unexpected happened. Please <a href="/contact/">contact</a> us and let us know of this issue.';
 
-            if ( $.isNumeric( output.cost ) & $.isNumeric( output.wcpid ) )
+            if ( output === null )
+            {
+                $( '#Yellowcoachescouk-quote-result' ).html( 'Our apologies, we have not recorded a quote for these locations. Please <a href="/contact/">contact</a> us directly for a quote.' );
+            }
+            else if ( typeof output.cost == 'undefined' | typeof output.wcpid == 'undefined' )
+            {
+                $( '#Yellowcoachescouk-quote-result' ).html( error );
+            }
+            else if ( $.isNumeric( output.cost ) & $.isNumeric( output.wcpid ) )
             {
                 $( '#Yellowcoachescouk-quote-result' ).html( '£' + output.cost );
                 $( '#Yellowcoachescouk-quote-result' ).attr( 'value', output.wcpid );
             }
             else
             {
-                $( '#Yellowcoachescouk-quote-result' ).html( '<h2 class="yellowcoachescouk-error">ERROR: </h2>Something unexpected happened. Please <a href="/contact/">contact</a> us and let us know of this issue.' );
+                $( '#Yellowcoachescouk-quote-result' ).html( error );
             }
         });
     }
