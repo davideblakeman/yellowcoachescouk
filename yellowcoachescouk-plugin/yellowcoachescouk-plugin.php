@@ -117,27 +117,7 @@ function yellowcoachescouk_options_page_html()
 
                 <h4>Add New WooCommerce Product</h4>
 
-                <!-- <div class="row">
-
-                    <div class="col">
-                        <button type="button" class="yellowcoachescouk-dropbtn btn btn-primary">Origin</button>
-                        <div id="Yellowcoachescouk-quote-dropdown-options-origin" class="yellowcoachescouk-dropdown-content">
-                            <input class="yellowcoachescouk-quote-search" type="text" placeholder="Search here">
-                            <button type="button" class="yellowcoachescouk-quote-anchor" value="5">Weymouth</button>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <button class="yellowcoachescouk-dropbtn btn btn-primary">Destination</button>
-                        <div id="Yellowcoachescouk-quote-dropdown-options-destination" class="yellowcoachescouk-dropdown-content">
-                            <input class="yellowcoachescouk-quote-search" type="text" placeholder="Search here">
-                            <button type="button" class="yellowcoachescouk-quote-anchor" value="1">Bridport</button>
-                        </div>
-                    </div>
-
-                </div> -->
-
-                <?php echo $YCQ->getQuoteHTML(); ?>
+                <?php echo $YCQ->getAdminQuoteHTML(); ?>
 
             </div>
 
