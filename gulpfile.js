@@ -251,4 +251,4 @@ gulp.task( 'clean-dist-product', function() {
 //       .pipe(uglify())
 //       // Output
 //       .pipe(gulp.dest('./js'))
-//   });
+// });
