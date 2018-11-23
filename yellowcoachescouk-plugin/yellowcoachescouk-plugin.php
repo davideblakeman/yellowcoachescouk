@@ -141,8 +141,18 @@ function yellowcoachescouk_enqueue_admin_script( $hook )
 
 	wp_enqueue_script(
 		'yellowcoachescouk-plugin-admin-script',
-        get_stylesheet_directory_uri() . '/js/child-theme.min.js'
+        get_stylesheet_directory_uri() . '/js/admin.js'
 	);
+
+    // Setup token security for ajax
+    wp_localize_script(
+        'yellowcoachescouk-plugin-admin-script',
+        'yellowcoachescouk_ajax_object',
+        [
+          'ajax_url'  => admin_url( 'admin-ajax.php' ),
+          'security'  => wp_create_nonce( 'yellowcoachescouk-security-token' ),
+        ]
+    );
 
 	// Registers the CSS for the plugin's admin page
 	wp_register_style( 
@@ -156,3 +166,5 @@ function yellowcoachescouk_enqueue_admin_script( $hook )
 	wp_enqueue_style( 'yellowcoachescouk-plugin-custom-style' );
 }
 add_action( 'admin_enqueue_scripts', 'yellowcoachescouk_enqueue_admin_script' );
+
+add_action( 'wp_ajax_yellowcoachescouk_admin_add_location', 'yellowcoachescouk_admin_add_location' );

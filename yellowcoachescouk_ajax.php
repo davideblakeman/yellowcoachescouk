@@ -55,6 +55,22 @@ function yellowcoachescouk_ajax_quote_purchase()
     wp_die();
 }
 
+function yellowcoachescouk_admin_add_location()
+{
+    yellowcoachescouk_check_ajax_token();
+
+    $location = strtolower( $_REQUEST[ 'l' ] );
+
+    // print_r($location);
+    // exit;
+
+    $YCWPDB = new YellowcoachescoukWPDB;
+    $result = $YCWPDB->addLocation( $location );
+
+    echo json_encode( $result );
+    wp_die();    
+}
+
 function yellowcoachescouk_check_ajax_token()
 {
     if ( !check_ajax_referer( 'yellowcoachescouk-security-token', 'security' ) )

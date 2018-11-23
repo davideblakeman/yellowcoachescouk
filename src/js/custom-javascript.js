@@ -118,15 +118,6 @@
         });
     });
 
-    $( document ).on( 'click', '#Yellowcoachescouk-admin-location-btn', function()
-    {
-        // console.log( $( '#Yellowcoachescouk-admin-location-new-location' ).val() );
-
-        $( '#Yellowcoachescouk-admin-location-input-location' ).val();
-
-
-    });
-
     function yellowcoachescouk_quote_show_result( origin, destination )
     {
         var result = '';

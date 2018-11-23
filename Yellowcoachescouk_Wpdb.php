@@ -39,6 +39,76 @@ if ( !defined( 'ABSPATH' ) ) die();
             return $result;
         }
 
+        function addLocation( $location )
+        {
+            global $wpdb;
+            $wpdb->show_errors();
+            $outcome = 'success';
+
+            // UPDATE question text
+            $wpdb->insert( 
+                $wpdb->prefix . 'yellowcoachescouk_locations', 
+                array(  
+                    'location' => $location
+                ), 
+                array( 
+                    '%s'
+                ) 
+            );
+
+            // UPDATE each answer
+            // foreach( $answers as $k => $v )
+            // {
+            //     if ( substr( $k, 0, 3 ) !== 'new' )
+            //     {
+            //         $wpdb->query(
+            //             $wpdb->prepare( 
+            //                 "
+            //                 UPDATE $wpdb->bnpolloftheday_options 
+            //                 SET option = %s
+            //                 WHERE oid = %d
+            //                 ",
+            //                 $v,
+            //                 $k
+            //             )
+            //         );
+            //     }
+            //     else if ( substr( $k, 0, 3 ) === 'new' )
+            //     {
+            //         $wpdb->insert( 
+            //             $wpdb->bnpolloftheday_options, 
+            //             array( 
+            //                 'qid' => $qid, 
+            //                 'option' => $v,
+            //                 'votes' => 0
+            //             ), 
+            //             array( 
+            //                 '%d', 
+            //                 '%s',
+            //                 '%d'
+            //             ) 
+            //         );
+            //     }
+            // }
+
+            if ( $wpdb->last_error !== '' )
+            {
+                // $str   = htmlspecialchars( $wpdb->last_result, ENT_QUOTES );
+                // $query = htmlspecialchars( $wpdb->last_query, ENT_QUOTES );
+        
+                // print "<div id='error'>
+                // <p class='wpdberror'><strong>WordPress database error:</strong> [$str]<br />
+                // <code>$query</code></p>
+                // </div>";
+                $outcome = 'fail';
+                return $outcome;
+            }
+            else
+            {
+                return $outcome;
+            }
+        }
+
         public function setupDBSchema()
         {
             global $wpdb;
