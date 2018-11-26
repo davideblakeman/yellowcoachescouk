@@ -31,7 +31,8 @@
 
         var haystack = [
             'yellowcoachescouk-quote-search',
-            'yellowcoachescouk-quote-anchor'
+            'yellowcoachescouk-quote-anchor',
+            'yellowcoachescouk-quote-anchor-admin'
         ];
         
         if ( $.inArray( needle, haystack ) === -1 || needle === 'null' )
@@ -49,7 +50,8 @@
 
         var haystack = [
             'null',
-            'yellowcoachescouk-quote-anchor'
+            'yellowcoachescouk-quote-anchor',
+            'yellowcoachescouk-quote-anchor-admin'
         ];
         
         if ( $.inArray( needle, haystack ) === -1 || needle === 'null' )
@@ -67,7 +69,7 @@
             $( '#Yellowcoachescouk-quote-detail-origin-selection' ).html( $( this ).html() );
             $( '#Yellowcoachescouk-quote-detail-origin-selection' ).attr( 'value', $( this ).val() );
         }
-        else
+        else if ( $( this ).parent().is( '#Yellowcoachescouk-quote-dropdown-options-destination' ) )
         {
             $( '#Yellowcoachescouk-quote-detail-destination-selection' ).html( $( this ).html() );
             $( '#Yellowcoachescouk-quote-detail-destination-selection' ).attr( 'value', $( this ).val() );
@@ -86,10 +88,10 @@
         }
     });
 
-    $( document ).on( 'click', '#Yellowcoachescouk-quote-purchase', function( e )
-    {
-        e.preventDefault();
-    });
+    // $( document ).on( 'click', '#Yellowcoachescouk-quote-purchase', function( e )
+    // {
+    //     e.preventDefault();
+    // });
 
     $( document ).on( 'click', '#Yellowcoachescouk-quote-purchase', function()
     {
@@ -102,7 +104,7 @@
             data : 
             {
                 action: 'yellowcoachescouk_quote_purchase',
-                security: yellowcoachescouk_ajax_object.token,
+                security: yellowcoachescouk_ajax_object.security,
                 product_id: product_id,
                 product_sku: '',
                 qty: 1,

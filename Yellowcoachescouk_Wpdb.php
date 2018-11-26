@@ -33,6 +33,7 @@ if ( !defined( 'ABSPATH' ) ) die();
                 "
                     SELECT lid, location 
                     FROM " . $wpdb->prefix . "yellowcoachescouk_locations
+                    ORDER BY location ASC
                 "
             );
 
@@ -100,6 +101,104 @@ if ( !defined( 'ABSPATH' ) ) die();
                 // <p class='wpdberror'><strong>WordPress database error:</strong> [$str]<br />
                 // <code>$query</code></p>
                 // </div>";
+                $outcome = 'fail';
+                return $outcome;
+            }
+            else
+            {
+                return $outcome;
+            }
+        }
+
+        public function editLocation( $locationText, $lid )
+        {
+            global $wpdb;
+            $wpdb->show_errors();
+            $outcome = 'success';
+            
+            $wpdb->query(
+                $wpdb->prepare( 
+                    "
+                    UPDATE " . $wpdb->prefix . "yellowcoachescouk_locations
+                    SET location = %s
+                    WHERE lid = %d
+                    ",
+                    $locationText,
+                    $lid
+                )
+            );
+
+            if ( $wpdb->last_error !== '' )
+            {
+                $outcome = 'fail';
+                return $outcome;
+            }
+            else
+            {
+                return $outcome;
+            }
+        }
+
+        public function getWCPIDsLinkedToLocation( $lid )
+        {
+            global $wpdb;
+
+            $result = $wpdb->get_results( $wpdb->prepare( 
+                "
+                    SELECT wcpid
+                    FROM " . $wpdb->prefix . "yellowcoachescouk_quotes
+                    WHERE origin = %s OR destination = %s
+                ", 
+                array(
+                    $lid,
+                    $lid
+                )
+            ), OBJECT_K );
+
+            // print_r($result);
+            // exit;
+
+            return $result;
+        }
+
+        public function updatePostsLinkedToLocation( $lid )
+        {
+            global $wpdb;
+            $wpdb->show_errors();
+            $outcome = 'success';
+            
+            $result = $wpdb->get_results( $wpdb->prepare( 
+                "
+                    SELECT
+                        post_content,
+                        post_title,
+                        post_excerpt,
+                        post_name
+                    FROM " . $wpdb->posts . "
+                    WHERE ID = %s
+                ", 
+                array(
+                    $lid
+                )
+            ), OBJECT_K );
+
+            var_dump( $result );
+            exit;
+
+            $wpdb->query(
+                $wpdb->prepare( 
+                    "
+                    UPDATE " . $wpdb->posts . "
+                    SET location = %s
+                    WHERE lid = %d
+                    ",
+                    $locationText,
+                    $lid
+                )
+            );
+
+            if ( $wpdb->last_error !== '' )
+            {
                 $outcome = 'fail';
                 return $outcome;
             }

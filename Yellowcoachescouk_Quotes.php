@@ -73,7 +73,7 @@ class YellowcoachescoukQuotes
         return $quote_html;
     }
 
-    public function getAdminQuoteHTML()
+    public function getAdminProductsHTML()
     {
         $YCWPDB = new YellowcoachescoukWPDB;
         $locations = $YCWPDB->getAllLocations();
@@ -138,6 +138,28 @@ class YellowcoachescoukQuotes
         ';
     
         return $quote_html;
+    }
+
+    public function getAdminLocationSelectHTML()
+    {
+        $YCWPDB = new YellowcoachescoukWPDB;
+        $location = $YCWPDB->getAllLocations();
+        $location_html = '';
+
+        $location_html .= '
+            <button id="Yellowcoachescouk-admin-location-dropdown" class="yellowcoachescouk-dropbtn btn btn-primary" type="button">Location</button>
+            <div id="Yellowcoachescouk-quote-dropdown-options-admin" class="yellowcoachescouk-dropdown-content">
+                <input class="yellowcoachescouk-quote-search" type="text" placeholder="Search here" />
+        ';
+
+        foreach ( $location as $l )
+        {
+            $location_html .= '<button type="button" class="yellowcoachescouk-quote-anchor-admin" value="' . $l->lid . '">' . ucwords( $l->location ) . '</button>';
+        }
+
+        $location_html .= '</div>';
+
+        return $location_html;
     }
 }
 

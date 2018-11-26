@@ -80,6 +80,7 @@ function yellowcoachescouk_options_page_html()
     }
     
     // $YCWPDB = new YellowcoachescoukWPDB;
+    // $locations = $YCWPDB->getAllLocations();
     // print_r( $YCWPDB->getAllLocations() );
     $YCQ = new YellowcoachescoukQuotes;
     // echo $YCQ->getQuoteHTML();
@@ -106,10 +107,38 @@ function yellowcoachescouk_options_page_html()
 
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 
-                <h4>Add New Location</h4>
+                <div class="row">
+                    <div class="col">
+                        <h4>Add New Location</h4>
+                    </div>
+                </div>
 
-                <input id="Yellowcoachescouk-admin-location-input-location" type="text" placeholder="New Location Name Here..." />
-                <button id="Yellowcoachescouk-admin-location-btn" type="button">Add</button>
+                <div class="row">
+                    <div class="col">
+                        <input id="Yellowcoachescouk-admin-location-input-location" type="text" placeholder="New Location Name Here..." />
+                        <button id="Yellowcoachescouk-admin-location-btn" class="yellowcoachescouk-dropbtn btn btn-primary" type="button">Add</button>
+                    </div>    
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <h4>Modify Existing Location</h4>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <?php echo $YCQ->getAdminLocationSelectHTML(); ?>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <!-- <h4>Edit location</h4> -->
+                        <input id="Yellowcoachescouk-admin-location-edit" />
+                        <button id="Yellowcoachescouk-admin-location-save-btn" class="btn btn-primary" type="button">Save</button>
+                    </div>
+                </div>
 
             </div>
 
@@ -117,7 +146,7 @@ function yellowcoachescouk_options_page_html()
 
                 <h4>Add New WooCommerce Product</h4>
 
-                <?php echo $YCQ->getAdminQuoteHTML(); ?>
+                <?php echo $YCQ->getAdminProductsHTML(); ?>
 
             </div>
 
@@ -154,6 +183,11 @@ function yellowcoachescouk_enqueue_admin_script( $hook )
         ]
     );
 
+    wp_enqueue_script(
+		'yellowcoachescouk-plugin-admin-script-bootstrap',
+        get_stylesheet_directory_uri() . '/js/child-theme.min.js'
+	);
+
 	// Registers the CSS for the plugin's admin page
 	wp_register_style( 
 		'yellowcoachescouk-plugin-custom-style',
@@ -163,8 +197,20 @@ function yellowcoachescouk_enqueue_admin_script( $hook )
 		'all' 
 	);
 	 // Enqueue the style
-	wp_enqueue_style( 'yellowcoachescouk-plugin-custom-style' );
+    wp_enqueue_style( 'yellowcoachescouk-plugin-custom-style' );
+    
+	// Registers the CSS for the plugin's admin page
+	wp_register_style( 
+		'yellowcoachescouk-plugin-custom-style-admin',
+        get_stylesheet_directory_uri() . '/css/admin.css',
+		array(), 
+		'20181120', 
+		'all' 
+	);
+	 // Enqueue the style
+	wp_enqueue_style( 'yellowcoachescouk-plugin-custom-style-admin' );
 }
 add_action( 'admin_enqueue_scripts', 'yellowcoachescouk_enqueue_admin_script' );
 
 add_action( 'wp_ajax_yellowcoachescouk_admin_add_location', 'yellowcoachescouk_admin_add_location' );
+add_action( 'wp_ajax_yellowcoachescouk_admin_edit_location', 'yellowcoachescouk_admin_edit_location' );

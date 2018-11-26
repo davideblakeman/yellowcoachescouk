@@ -71,6 +71,35 @@ function yellowcoachescouk_admin_add_location()
     wp_die();    
 }
 
+function yellowcoachescouk_admin_edit_location()
+{
+    yellowcoachescouk_check_ajax_token();
+
+    $locationText = strtolower( $_REQUEST[ 'l' ] );
+    $lid = $_REQUEST[ 'lid' ];
+
+    // print_r($lid);
+    // exit;
+
+    $YCWPDB = new YellowcoachescoukWPDB;
+    // $result = $YCWPDB->editLocation( $locationText, $lid );
+    // $wcpidLinks = $YCWPDB->getWCPIDsLinkedToLocation( $lid );
+    
+    // if ( count( $wcpidLinks ) > 0 )
+    // {
+    //     foreach( $wcpidLinks as $w )
+    //     {
+    //         print_r($w->wcpid);
+            
+    //     }
+    // }
+
+    $YCWPDB->updatePostsLinkedToLocation( $lid );
+
+    // echo json_encode( $result );
+    wp_die();    
+}
+
 function yellowcoachescouk_check_ajax_token()
 {
     if ( !check_ajax_referer( 'yellowcoachescouk-security-token', 'security' ) )
