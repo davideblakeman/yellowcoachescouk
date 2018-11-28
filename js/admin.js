@@ -21,23 +21,32 @@
     
     $( document ).on( 'click', '.yellowcoachescouk-quote-anchor-admin', function()
     {
-        // console.log( $( this ) );
         $( this )
             .parent()
             .removeClass( 'yellowcoachescouk-show' );
         
         var lid = $( this ).attr( 'value' );
         var location = $( this ).html();
-        // console.log( location );
 
         $( '#Yellowcoachescouk-admin-location-edit' ).val( location );
         $( '#Yellowcoachescouk-admin-location-save-btn' ).val( lid );
-        // $( '#Yellowcoachescouk-admin-location-btn' ).attr( 'value', lid );
+
+        var data = {
+            action: 'yellowcoachescouk_admin_get_location_posts_content_html',
+            security: yellowcoachescouk_ajax_object.security,
+            lid: lid
+        };
         
-        // if ( ( origin !== '' & typeof origin !== 'undefined' ) & ( destination !== '' & typeof destination !== 'undefined' ) )
-        // {
-        //     yellowcoachescouk_quote_show_result( origin, destination );
-        // }
+        $.post( yellowcoachescouk_ajax_object.ajax_url, data, function( output )
+        {
+            var output = $.parseJSON( output );
+            $( '#Yellowcoachescouk-admin-location-ajax-edit' ).html( output );
+        });
+    });
+
+    $( document ).on( 'click', '.yellowcoachescouk-admin-location-edit-anchor', function()
+    {
+        console.log( $( this ) );
     });
 
     $( document ).on( 'click', '#Yellowcoachescouk-admin-location-save-btn', function()
@@ -63,6 +72,5 @@
             // window.location.href = window.location.href;
         });
     });
-    
 
 })( jQuery );

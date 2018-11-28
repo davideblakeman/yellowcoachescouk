@@ -161,15 +161,63 @@ if ( !defined( 'ABSPATH' ) ) die();
             return $result;
         }
 
-        public function updatePostsLinkedToLocation( $lid )
+        // public function updatePostsLinkedToLocation( $lid )
+        // {
+        //     global $wpdb;
+        //     $wpdb->show_errors();
+        //     $outcome = 'success';
+            
+        //     $result = $wpdb->get_results( $wpdb->prepare( 
+        //         "
+        //             SELECT
+        //                 post_content,
+        //                 post_title,
+        //                 post_excerpt,
+        //                 post_name
+        //             FROM " . $wpdb->posts . "
+        //             WHERE ID = %s
+        //         ", 
+        //         array(
+        //             $lid
+        //         )
+        //     ), OBJECT_K );
+
+        //     var_dump( $result );
+        //     exit;
+
+        //     $wpdb->query(
+        //         $wpdb->prepare( 
+        //             "
+        //             UPDATE " . $wpdb->posts . "
+        //             SET location = %s
+        //             WHERE lid = %d
+        //             ",
+        //             $locationText,
+        //             $lid
+        //         )
+        //     );
+
+        //     if ( $wpdb->last_error !== '' )
+        //     {
+        //         $outcome = 'fail';
+        //         return $outcome;
+        //     }
+        //     else
+        //     {
+        //         return $outcome;
+        //     }
+        // }
+
+        public function getPostContentByWCPID( $wcpid )
         {
             global $wpdb;
             $wpdb->show_errors();
             $outcome = 'success';
-            
+
             $result = $wpdb->get_results( $wpdb->prepare( 
                 "
                     SELECT
+                        ID,
                         post_content,
                         post_title,
                         post_excerpt,
@@ -178,34 +226,11 @@ if ( !defined( 'ABSPATH' ) ) die();
                     WHERE ID = %s
                 ", 
                 array(
-                    $lid
+                    $wcpid
                 )
-            ), OBJECT_K );
+            ), OBJECT );
 
-            var_dump( $result );
-            exit;
-
-            $wpdb->query(
-                $wpdb->prepare( 
-                    "
-                    UPDATE " . $wpdb->posts . "
-                    SET location = %s
-                    WHERE lid = %d
-                    ",
-                    $locationText,
-                    $lid
-                )
-            );
-
-            if ( $wpdb->last_error !== '' )
-            {
-                $outcome = 'fail';
-                return $outcome;
-            }
-            else
-            {
-                return $outcome;
-            }
+            return $result;
         }
 
         public function setupDBSchema()

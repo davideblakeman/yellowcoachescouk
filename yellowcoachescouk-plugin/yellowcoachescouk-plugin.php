@@ -135,7 +135,33 @@ function yellowcoachescouk_options_page_html()
                 <div class="row">
                     <div class="col">
                         <!-- <h4>Edit location</h4> -->
+                        <label for="Yellowcoachescouk-admin-location-edit">Edit Location Name</label>
                         <input id="Yellowcoachescouk-admin-location-edit" />
+                    </div>
+                </div>
+
+                <div id="Yellowcoachescouk-admin-location-ajax-edit"></div>
+                <!-- <div class="row">
+                    <div id="Yellowcoachescouk-admin-location-select-wcproduct" class="col">
+
+                    </div>
+                </div>
+
+                <div id="Yellowcoachescouk-admin-location-hidden-edits" class="row">
+                    <div class="col">
+                        <label for="Yellowcoachescouk-admin-location-hidden-edits-post-content">Post Content</label>
+                        <input id="Yellowcoachescouk-admin-location-hidden-edits-post-content" placeholder="Post Content" />
+                        <label for="Yellowcoachescouk-admin-location-hidden-edits-post-title">Post Title</label>
+                        <input id="Yellowcoachescouk-admin-location-hidden-edits-post-title" placeholder="Post Title" />
+                        <label for="Yellowcoachescouk-admin-location-hidden-edits-post-excerpt">Post Excerpt</label>
+                        <input id="Yellowcoachescouk-admin-location-hidden-edits-post-excerpt" placeholder="Post Excerpt" />
+                        <label for="Yellowcoachescouk-admin-location-hidden-edits-post-name">Post Name</label>
+                        <input id="Yellowcoachescouk-admin-location-hidden-edits-post-name"  placeholder="Post Name" />
+                    </div>
+                </div> -->
+
+                <div class="row">
+                    <div class="col">
                         <button id="Yellowcoachescouk-admin-location-save-btn" class="btn btn-primary" type="button">Save</button>
                     </div>
                 </div>
@@ -214,3 +240,4 @@ add_action( 'admin_enqueue_scripts', 'yellowcoachescouk_enqueue_admin_script' );
 
 add_action( 'wp_ajax_yellowcoachescouk_admin_add_location', 'yellowcoachescouk_admin_add_location' );
 add_action( 'wp_ajax_yellowcoachescouk_admin_edit_location', 'yellowcoachescouk_admin_edit_location' );
+add_action( 'wp_ajax_yellowcoachescouk_admin_get_location_posts_content_html', 'yellowcoachescouk_admin_get_location_posts_content_html' );

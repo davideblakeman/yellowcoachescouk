@@ -100,6 +100,84 @@ function yellowcoachescouk_admin_edit_location()
     wp_die();    
 }
 
+function yellowcoachescouk_admin_get_location_posts_content_html()
+{
+    yellowcoachescouk_check_ajax_token();
+    
+    $lid = $_REQUEST[ 'lid' ];
+    $YCWPDB = new YellowcoachescoukWPDB;
+    $wcpids = $YCWPDB->getWCPIDsLinkedToLocation( $lid );
+    $n = 0;
+    $firstWCPIDContent;
+
+    // print_r( $wcpids );
+    // exit;
+    
+    $html = '
+        <div class="row">
+            <div id="Yellowcoachescouk-admin-location-select-wcproduct" class="col">
+                <button type="button" class="yellowcoachescouk-dropbtn btn btn-primary">WC Product(s)</button>
+                <div id="Yellowcoachescouk-quote-dropdown-options-origin" class="yellowcoachescouk-dropdown-content">
+                    <input class="yellowcoachescouk-quote-search" type="text" placeholder="Search here" />
+    ';
+
+    foreach ( $wcpids as $w )
+    {
+        // var_dump($w->wcpid);
+        // print_r($YCWPDB->getPostContentByWCPID( $w->wcpid ));
+        // exit;
+
+        $post = '';
+
+        if ( $n === 0 )
+        {
+            $firstWCPIDContent = $YCWPDB->getPostContentByWCPID( $w->wcpid )[0];
+
+            // print_r( $firstWCPIDContent );
+            // exit;
+
+            $n++;
+
+            $html .= '
+                <button type="button" class="yellowcoachescouk-admin-location-edit-anchor" value="' . $firstWCPIDContent->ID . '">' . $firstWCPIDContent->post_title . '</button>
+            ';
+        }
+        else
+        {
+            $post = $YCWPDB->getPostContentByWCPID( $w->wcpid )[0];
+            
+            $html .= '
+                <button type="button" class="yellowcoachescouk-admin-location-edit-anchor" value="' . $post->ID . '">' . $post->post_title . '</button>
+            ';
+        }
+    }
+    // exit;
+
+    $html .= '
+                </div>
+            </div>
+        </div>
+    ';
+
+    $html .= '
+        <div id="Yellowcoachescouk-admin-location-hidden-edits" class="row">
+            <div class="col">
+                <label for="Yellowcoachescouk-admin-location-hidden-edits-post-content">Post Content</label>
+                <input id="Yellowcoachescouk-admin-location-hidden-edits-post-content" placeholder="Post Content" value="' . $firstWCPIDContent->post_content . '" />
+                <label for="Yellowcoachescouk-admin-location-hidden-edits-post-title">Post Title</label>
+                <input id="Yellowcoachescouk-admin-location-hidden-edits-post-title" placeholder="Post Title" value="' . $firstWCPIDContent->post_title . '" />
+                <label for="Yellowcoachescouk-admin-location-hidden-edits-post-excerpt">Post Excerpt</label>
+                <input id="Yellowcoachescouk-admin-location-hidden-edits-post-excerpt" placeholder="Post Excerpt" value="' . $firstWCPIDContent->post_excerpt . '" />
+                <label for="Yellowcoachescouk-admin-location-hidden-edits-post-name">Post Name</label>
+                <input id="Yellowcoachescouk-admin-location-hidden-edits-post-name"  placeholder="Post Name" value="' . $firstWCPIDContent->post_name . '" />
+            </div>
+        </div>
+    ';
+    
+    echo json_encode( $html );
+    wp_die();
+}
+
 function yellowcoachescouk_check_ajax_token()
 {
     if ( !check_ajax_referer( 'yellowcoachescouk-security-token', 'security' ) )
