@@ -75,27 +75,22 @@ function yellowcoachescouk_admin_edit_location()
 {
     yellowcoachescouk_check_ajax_token();
 
-    $locationText = strtolower( $_REQUEST[ 'l' ] );
-    $lid = $_REQUEST[ 'lid' ];
+    $saveObj = $_REQUEST[ 's' ];
 
-    // print_r($lid);
-    // exit;
+    $wcSave = (object) [
+        'wcpid' => $saveObj[ 'wcpid' ],
+        'content' => $saveObj[ 'content' ],
+        'excerpt' => $saveObj[ 'excerpt' ],
+        'name' => $saveObj[ 'name' ],
+        'title' => $saveObj[ 'title' ]
+    ];
 
     $YCWPDB = new YellowcoachescoukWPDB;
-    // $result = $YCWPDB->editLocation( $locationText, $lid );
-    // $wcpidLinks = $YCWPDB->getWCPIDsLinkedToLocation( $lid );
+    $YCWPDB->editLocation( $saveObj[ 'location' ], $saveObj[ 'lid' ] );
+    $YCWPDB->editWCProductPost( $wcSave );
+
+    //needs error handling
     
-    // if ( count( $wcpidLinks ) > 0 )
-    // {
-    //     foreach( $wcpidLinks as $w )
-    //     {
-    //         print_r($w->wcpid);
-            
-    //     }
-    // }
-
-    $YCWPDB->updatePostsLinkedToLocation( $lid );
-
     // echo json_encode( $result );
     wp_die();    
 }
@@ -115,65 +110,101 @@ function yellowcoachescouk_admin_get_location_posts_content_html()
     
     $html = '
         <div class="row">
-            <div id="Yellowcoachescouk-admin-location-select-wcproduct" class="col">
-                <button type="button" class="yellowcoachescouk-dropbtn btn btn-primary">WC Product(s)</button>
-                <div id="Yellowcoachescouk-quote-dropdown-options-origin" class="yellowcoachescouk-dropdown-content">
-                    <input class="yellowcoachescouk-quote-search" type="text" placeholder="Search here" />
-    ';
-
-    foreach ( $wcpids as $w )
-    {
-        // var_dump($w->wcpid);
-        // print_r($YCWPDB->getPostContentByWCPID( $w->wcpid ));
-        // exit;
-
-        $post = '';
-
-        if ( $n === 0 )
-        {
-            $firstWCPIDContent = $YCWPDB->getPostContentByWCPID( $w->wcpid )[0];
-
-            // print_r( $firstWCPIDContent );
-            // exit;
-
-            $n++;
-
-            $html .= '
-                <button type="button" class="yellowcoachescouk-admin-location-edit-anchor" value="' . $firstWCPIDContent->ID . '">' . $firstWCPIDContent->post_title . '</button>
-            ';
-        }
-        else
-        {
-            $post = $YCWPDB->getPostContentByWCPID( $w->wcpid )[0];
-            
-            $html .= '
-                <button type="button" class="yellowcoachescouk-admin-location-edit-anchor" value="' . $post->ID . '">' . $post->post_title . '</button>
-            ';
-        }
-    }
-    // exit;
-
-    $html .= '
-                </div>
-            </div>
-        </div>
-    ';
-
-    $html .= '
-        <div id="Yellowcoachescouk-admin-location-hidden-edits" class="row">
             <div class="col">
-                <label for="Yellowcoachescouk-admin-location-hidden-edits-post-content">Post Content</label>
-                <input id="Yellowcoachescouk-admin-location-hidden-edits-post-content" placeholder="Post Content" value="' . $firstWCPIDContent->post_content . '" />
-                <label for="Yellowcoachescouk-admin-location-hidden-edits-post-title">Post Title</label>
-                <input id="Yellowcoachescouk-admin-location-hidden-edits-post-title" placeholder="Post Title" value="' . $firstWCPIDContent->post_title . '" />
-                <label for="Yellowcoachescouk-admin-location-hidden-edits-post-excerpt">Post Excerpt</label>
-                <input id="Yellowcoachescouk-admin-location-hidden-edits-post-excerpt" placeholder="Post Excerpt" value="' . $firstWCPIDContent->post_excerpt . '" />
-                <label for="Yellowcoachescouk-admin-location-hidden-edits-post-name">Post Name</label>
-                <input id="Yellowcoachescouk-admin-location-hidden-edits-post-name"  placeholder="Post Name" value="' . $firstWCPIDContent->post_name . '" />
+                <label for="Yellowcoachescouk-admin-location-edit">Edit Location Name</label>
+                <input id="Yellowcoachescouk-admin-location-edit" />
             </div>
         </div>
     ';
     
+    if ( count( $wcpids ) < 1 )
+    {
+        $html .= '
+            <div>No WooCommerce Products found for this location.</div>
+        ';
+    }
+    else
+    {
+        $firstWcpid = array_shift( array_slice( $wcpids, 0, 1 ) )->wcpid;
+
+        $html .= '
+            <div class="row">
+                <div id="Yellowcoachescouk-admin-location-select-wcproduct" class="col">
+                    <button id="Yellowcoachescouk-admin-location-wcproduct-btn" class="yellowcoachescouk-dropbtn btn btn-primary" type="button" value="' . $firstWcpid . '">WC Product(s)</button>
+                    <div id="Yellowcoachescouk-admin-dropdown-location-wcproduct" class="yellowcoachescouk-dropdown-content">
+                        <input class="yellowcoachescouk-quote-search" type="text" placeholder="Search here" />
+        ';
+
+        foreach ( $wcpids as $w )
+        {
+            $post = '';
+
+            if ( $n === 0 )
+            {
+                $firstWCPIDContent = $YCWPDB->getPostContentByWCPID( $w->wcpid )[0];
+                $n++;
+
+                $html .= '
+                    <button type="button" class="yellowcoachescouk-admin-location-edit-anchor" value="' . $firstWCPIDContent->ID . '">' . $firstWCPIDContent->post_title . '</button>
+                ';
+            }
+            else
+            {
+                $post = $YCWPDB->getPostContentByWCPID( $w->wcpid )[0];
+                
+                $html .= '
+                    <button type="button" class="yellowcoachescouk-admin-location-edit-anchor" value="' . $post->ID . '">' . $post->post_title . '</button>
+                ';
+            }
+        }
+
+        $html .= '
+                    </div>
+                </div>
+            </div>
+        ';
+
+        $html .= '
+            <div id="Yellowcoachescouk-admin-location-hidden-edits" class="row">
+                <div class="col">
+                    <label for="Yellowcoachescouk-admin-location-hidden-edits-post-content">Post Content</label>
+                    <input id="Yellowcoachescouk-admin-location-hidden-edits-post-content" placeholder="Post Content" value="' . $firstWCPIDContent->post_content . '" />
+                    <label for="Yellowcoachescouk-admin-location-hidden-edits-post-title">Post Title</label>
+                    <input id="Yellowcoachescouk-admin-location-hidden-edits-post-title" placeholder="Post Title" value="' . $firstWCPIDContent->post_title . '" />
+                    <label for="Yellowcoachescouk-admin-location-hidden-edits-post-excerpt">Post Excerpt</label>
+                    <input id="Yellowcoachescouk-admin-location-hidden-edits-post-excerpt" placeholder="Post Excerpt" value="' . $firstWCPIDContent->post_excerpt . '" />
+                    <label for="Yellowcoachescouk-admin-location-hidden-edits-post-name">Post Name</label>
+                    <input id="Yellowcoachescouk-admin-location-hidden-edits-post-name"  placeholder="Post Name" value="' . $firstWCPIDContent->post_name . '" />
+                </div>
+            </div>
+        ';
+    }
+    
+    echo json_encode( $html );
+    wp_die();
+}
+
+function yellowcoachescouk_admin_get_wcproduct_content( $wcpid )
+{
+    yellowcoachescouk_check_ajax_token();
+    
+    $wcpid = $_REQUEST[ 'wcpid' ];
+    $YCWPDB = new YellowcoachescoukWPDB;
+    $wcPostContent = $YCWPDB->getPostContentByWCPID( $wcpid )[0];
+
+    $html .= '
+        <div class="col">
+            <label for="Yellowcoachescouk-admin-location-hidden-edits-post-content">Post Content</label>
+            <input id="Yellowcoachescouk-admin-location-hidden-edits-post-content" placeholder="Post Content" value="' . $wcPostContent->post_content . '" />
+            <label for="Yellowcoachescouk-admin-location-hidden-edits-post-title">Post Title</label>
+            <input id="Yellowcoachescouk-admin-location-hidden-edits-post-title" placeholder="Post Title" value="' . $wcPostContent->post_title . '" />
+            <label for="Yellowcoachescouk-admin-location-hidden-edits-post-excerpt">Post Excerpt</label>
+            <input id="Yellowcoachescouk-admin-location-hidden-edits-post-excerpt" placeholder="Post Excerpt" value="' . $wcPostContent->post_excerpt . '" />
+            <label for="Yellowcoachescouk-admin-location-hidden-edits-post-name">Post Name</label>
+            <input id="Yellowcoachescouk-admin-location-hidden-edits-post-name"  placeholder="Post Name" value="' . $wcPostContent->post_name . '" />
+        </div>
+    ';
+
     echo json_encode( $html );
     wp_die();
 }

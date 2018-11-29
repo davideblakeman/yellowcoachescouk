@@ -1,7 +1,5 @@
 <?php
 
-// namespace YellowCoachescouk;
-
 if ( !defined( 'ABSPATH' ) ) die();
 
 class YellowcoachescoukQuotes
@@ -23,7 +21,7 @@ class YellowcoachescoukQuotes
     
         foreach ( $locations as $l )
         {
-            $location_html .= '<button type="button" class="yellowcoachescouk-quote-anchor" value="' . $l->lid . '">' . ucwords( $l->location ) . '</button>';
+            $location_html .= '<button type="button" class="yellowcoachescouk-quote-anchor" value="' . $l->lid . '">' . $l->location . '</button>';
         }
     
         $quote_html .= $location_html;
@@ -90,7 +88,7 @@ class YellowcoachescoukQuotes
     
         foreach ( $locations as $l )
         {
-            $location_html .= '<button type="button" class="yellowcoachescouk-quote-anchor" value="' . $l->lid . '">' . ucwords( $l->location ) . '</button>';
+            $location_html .= '<button type="button" class="yellowcoachescouk-quote-anchor" value="' . $l->lid . '">' . $l->location . '</button>';
         }
     
         $quote_html .= $location_html;
@@ -148,13 +146,13 @@ class YellowcoachescoukQuotes
 
         $location_html .= '
             <button id="Yellowcoachescouk-admin-location-dropdown" class="yellowcoachescouk-dropbtn btn btn-primary" type="button">Location</button>
-            <div id="Yellowcoachescouk-quote-dropdown-options-admin" class="yellowcoachescouk-dropdown-content">
+            <div id="Yellowcoachescouk-admin-dropdown-location-options" class="yellowcoachescouk-dropdown-content">
                 <input class="yellowcoachescouk-quote-search" type="text" placeholder="Search here" />
         ';
 
         foreach ( $location as $l )
         {
-            $location_html .= '<button type="button" class="yellowcoachescouk-quote-anchor-admin" value="' . $l->lid . '">' . ucwords( $l->location ) . '</button>';
+            $location_html .= '<button type="button" class="yellowcoachescouk-quote-anchor-admin" value="' . $l->lid . '">' . $l->location . '</button>';
         }
 
         $location_html .= '</div>';

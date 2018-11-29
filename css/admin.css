@@ -6,6 +6,8 @@
     width: 20%;
 }
 
-#Yellowcoachescouk-quote-dropdown-options-admin.yellowcoachescouk-dropdown-content {
+#Yellowcoachescouk-admin-dropdown-location-options.yellowcoachescouk-dropdown-content,
+#Yellowcoachescouk-admin-dropdown-location-wcproduct.yellowcoachescouk-dropdown-content {
     width: 20% !important;
 }
+

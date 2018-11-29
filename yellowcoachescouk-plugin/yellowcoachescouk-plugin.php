@@ -9,7 +9,7 @@ if ( $_SERVER[ 'REQUEST_METHOD' ] == 'GET' && realpath( __FILE__ ) == realpath( 
 /*
 Plugin Name: Yellow Coaches Plugin
 Plugin URI: yellowcoaches.co.uk
-Description: Yellow Coaches WordPress Plugin that modifies WordPress and WooCommerce.
+Description: Yellow Coaches WordPress Theme Plugin that modifies WordPress and WooCommerce.
 Version: 1.0
 Author: David Blakeman & Resh Nawoor
 Author URI: tbc
@@ -18,6 +18,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 
 /*
+PHP 5.4+
 jQuery v1.7+
 */
 
@@ -51,14 +52,6 @@ function yellowcoachescouk_options_page()
 	$capability = 'manage_options';
 	$menu_slug = 'yellowcoachescouk-settings';
 	$function = 'yellowcoachescouk_options_page_html';
-
-	// add_theme_page( 
-	// 	$page_title,
-	// 	$menu_title, 
-	// 	$capability,
-	// 	$menu_slug,
-	// 	$function
-    // );
     
     add_menu_page(
 		$page_title,
@@ -79,12 +72,7 @@ function yellowcoachescouk_options_page_html()
 		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
     }
     
-    // $YCWPDB = new YellowcoachescoukWPDB;
-    // $locations = $YCWPDB->getAllLocations();
-    // print_r( $YCWPDB->getAllLocations() );
     $YCQ = new YellowcoachescoukQuotes;
-    // echo $YCQ->getQuoteHTML();
-    // exit;
 
     ?>
 
@@ -132,33 +120,7 @@ function yellowcoachescouk_options_page_html()
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col">
-                        <!-- <h4>Edit location</h4> -->
-                        <label for="Yellowcoachescouk-admin-location-edit">Edit Location Name</label>
-                        <input id="Yellowcoachescouk-admin-location-edit" />
-                    </div>
-                </div>
-
                 <div id="Yellowcoachescouk-admin-location-ajax-edit"></div>
-                <!-- <div class="row">
-                    <div id="Yellowcoachescouk-admin-location-select-wcproduct" class="col">
-
-                    </div>
-                </div>
-
-                <div id="Yellowcoachescouk-admin-location-hidden-edits" class="row">
-                    <div class="col">
-                        <label for="Yellowcoachescouk-admin-location-hidden-edits-post-content">Post Content</label>
-                        <input id="Yellowcoachescouk-admin-location-hidden-edits-post-content" placeholder="Post Content" />
-                        <label for="Yellowcoachescouk-admin-location-hidden-edits-post-title">Post Title</label>
-                        <input id="Yellowcoachescouk-admin-location-hidden-edits-post-title" placeholder="Post Title" />
-                        <label for="Yellowcoachescouk-admin-location-hidden-edits-post-excerpt">Post Excerpt</label>
-                        <input id="Yellowcoachescouk-admin-location-hidden-edits-post-excerpt" placeholder="Post Excerpt" />
-                        <label for="Yellowcoachescouk-admin-location-hidden-edits-post-name">Post Name</label>
-                        <input id="Yellowcoachescouk-admin-location-hidden-edits-post-name"  placeholder="Post Name" />
-                    </div>
-                </div> -->
 
                 <div class="row">
                     <div class="col">
@@ -241,3 +203,4 @@ add_action( 'admin_enqueue_scripts', 'yellowcoachescouk_enqueue_admin_script' );
 add_action( 'wp_ajax_yellowcoachescouk_admin_add_location', 'yellowcoachescouk_admin_add_location' );
 add_action( 'wp_ajax_yellowcoachescouk_admin_edit_location', 'yellowcoachescouk_admin_edit_location' );
 add_action( 'wp_ajax_yellowcoachescouk_admin_get_location_posts_content_html', 'yellowcoachescouk_admin_get_location_posts_content_html' );
+add_action( 'wp_ajax_yellowcoachescouk_admin_get_wcproduct_content', 'yellowcoachescouk_admin_get_wcproduct_content' );

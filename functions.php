@@ -94,67 +94,6 @@ function yellowcoachescouk_db_setup()
     }
 }
 
-// function yellowcoachescouk_add_admin_scripts( $hook )
-// {
-// 	// if ( 'themes.php' != $hook )
-//     //     return;
-
-//     // print_r( get_stylesheet_directory_uri() . '/js/admin.js' );
-//     // print_r(get_stylesheet_directory_uri() . '/css/admin.css');
-//     // exit;
-
-// 	// wp_enqueue_script(
-// 	// 	'yellowcoachescouk-admin-script',
-// 	// 	plugins_url( '/js/admin.js', __FILE__ )
-//     // );
-// 	wp_enqueue_script(
-// 		'yellowcoachescouk-admin-script',
-// 		get_stylesheet_directory_uri() . '/js/admin.js'
-//     );
-
-// 	// Registers the CSS for the plugin's admin page
-// 	// wp_register_style( 
-// 	// 	'yellowcoachescouk-admin-style', 
-// 	// 	plugins_url( '/css/admin.css', __FILE__ ), 
-// 	// 	array(), 
-// 	// 	'20181120', 
-// 	// 	'all' 
-//     // );
-// 	wp_register_style( 
-// 		'yellowcoachescouk-admin-style', 
-// 		get_stylesheet_directory_uri() . '/css/admin.css',
-// 		array(), 
-// 		'20181120', 
-// 		'all' 
-// 	);
-// 	// Enqueue the style
-// 	wp_enqueue_style( 'yellowcoachescouk-admin-style' );
-// }
-// add_action( 'admin_enqueue_scripts', 'yellowcoachescouk_add_admin_scripts' );
-
-// function yellowcoachescouk_enqueue_admin_script( $hook )
-// {
-// 	// if ( 'toplevel_page_yellowcoachescouk-settings' != $hook )
-//     //     return;
-
-// 	wp_enqueue_script(
-// 		'yellowcoachescouk-plugin-admin-script',
-//         get_stylesheet_directory_uri() . '/js/admin.js'
-// 	);
-
-// 	// Registers the CSS for the plugin's admin page
-// 	wp_register_style( 
-// 		'yellowcoachescouk-plugin-custom-style',
-//         get_stylesheet_directory_uri() . '/css/child-theme.min.css',
-// 		array(), 
-// 		'20181120', 
-// 		'all' 
-// 	);
-// 	 // Enqueue the style
-// 	wp_enqueue_style( 'yellowcoachescouk-plugin-custom-style' );
-// }
-// add_action( 'admin_enqueue_scripts', 'yellowcoachescouk_enqueue_admin_script' );
-
 //Register callback functions for ajax invocations
 add_action( 'wp_ajax_yellowcoachescouk_quote_get', 'yellowcoachescouk_ajax_quote_get' );
 //For non logged in users

@@ -1,7 +1,5 @@
 <?php
 
-// namespace YellowCoachescouk;
-
 if ( !defined( 'ABSPATH' ) ) die();
 
     class YellowcoachescoukWPDB
@@ -56,41 +54,6 @@ if ( !defined( 'ABSPATH' ) ) die();
                     '%s'
                 ) 
             );
-
-            // UPDATE each answer
-            // foreach( $answers as $k => $v )
-            // {
-            //     if ( substr( $k, 0, 3 ) !== 'new' )
-            //     {
-            //         $wpdb->query(
-            //             $wpdb->prepare( 
-            //                 "
-            //                 UPDATE $wpdb->bnpolloftheday_options 
-            //                 SET option = %s
-            //                 WHERE oid = %d
-            //                 ",
-            //                 $v,
-            //                 $k
-            //             )
-            //         );
-            //     }
-            //     else if ( substr( $k, 0, 3 ) === 'new' )
-            //     {
-            //         $wpdb->insert( 
-            //             $wpdb->bnpolloftheday_options, 
-            //             array( 
-            //                 'qid' => $qid, 
-            //                 'option' => $v,
-            //                 'votes' => 0
-            //             ), 
-            //             array( 
-            //                 '%d', 
-            //                 '%s',
-            //                 '%d'
-            //             ) 
-            //         );
-            //     }
-            // }
 
             if ( $wpdb->last_error !== '' )
             {
@@ -161,53 +124,6 @@ if ( !defined( 'ABSPATH' ) ) die();
             return $result;
         }
 
-        // public function updatePostsLinkedToLocation( $lid )
-        // {
-        //     global $wpdb;
-        //     $wpdb->show_errors();
-        //     $outcome = 'success';
-            
-        //     $result = $wpdb->get_results( $wpdb->prepare( 
-        //         "
-        //             SELECT
-        //                 post_content,
-        //                 post_title,
-        //                 post_excerpt,
-        //                 post_name
-        //             FROM " . $wpdb->posts . "
-        //             WHERE ID = %s
-        //         ", 
-        //         array(
-        //             $lid
-        //         )
-        //     ), OBJECT_K );
-
-        //     var_dump( $result );
-        //     exit;
-
-        //     $wpdb->query(
-        //         $wpdb->prepare( 
-        //             "
-        //             UPDATE " . $wpdb->posts . "
-        //             SET location = %s
-        //             WHERE lid = %d
-        //             ",
-        //             $locationText,
-        //             $lid
-        //         )
-        //     );
-
-        //     if ( $wpdb->last_error !== '' )
-        //     {
-        //         $outcome = 'fail';
-        //         return $outcome;
-        //     }
-        //     else
-        //     {
-        //         return $outcome;
-        //     }
-        // }
-
         public function getPostContentByWCPID( $wcpid )
         {
             global $wpdb;
@@ -231,6 +147,34 @@ if ( !defined( 'ABSPATH' ) ) die();
             ), OBJECT );
 
             return $result;
+        }
+
+        public function editWCProductPost( $wcSave )
+        {
+            global $wpdb;
+            $wpdb->show_errors();
+            $outcome = 'success';
+
+            
+
+            $wpdb->query(
+                $wpdb->prepare( 
+                    "
+                    UPDATE $wpdb->posts
+                    SET
+                        post_content = %s,
+                        post_title = %s,
+                        post_excerpt = %s,
+                        post_name = %s
+                    WHERE ID = %d
+                    ",
+                    $wcSave->content,
+                    $wcSave->title,
+                    $wcSave->excerpt,
+                    $wcSave->name,
+                    $wcSave->wcpid
+                )
+            );
         }
 
         public function setupDBSchema()

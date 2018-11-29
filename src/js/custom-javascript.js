@@ -2,7 +2,7 @@
 
     $( document ).ready( function()
     {
-        // console.log( yellowcoachescouk_ajax_object.ajax_url );
+        
     });
 
     $( document ).on( 'click', '.yellowcoachescouk-dropbtn', function()
@@ -31,8 +31,7 @@
 
         var haystack = [
             'yellowcoachescouk-quote-search',
-            'yellowcoachescouk-quote-anchor',
-            'yellowcoachescouk-quote-anchor-admin'
+            'yellowcoachescouk-quote-anchor'
         ];
         
         if ( $.inArray( needle, haystack ) === -1 || needle === 'null' )
@@ -50,8 +49,7 @@
 
         var haystack = [
             'null',
-            'yellowcoachescouk-quote-anchor',
-            'yellowcoachescouk-quote-anchor-admin'
+            'yellowcoachescouk-quote-anchor'
         ];
         
         if ( $.inArray( needle, haystack ) === -1 || needle === 'null' )
@@ -88,14 +86,8 @@
         }
     });
 
-    // $( document ).on( 'click', '#Yellowcoachescouk-quote-purchase', function( e )
-    // {
-    //     e.preventDefault();
-    // });
-
     $( document ).on( 'click', '#Yellowcoachescouk-quote-purchase', function()
     {
-        // var url = window.location.origin + '/wp-admin/admin-ajax.php';
         var product_id = $( '#Yellowcoachescouk-quote-result' ).val();
 
         $.ajax({
@@ -113,7 +105,6 @@
         
             success : function( response )
             {
-                // console.log( response );
                 window.location = '/basket/';
             }
         
@@ -130,8 +121,6 @@
             o: origin,
             d: destination
         };
-        
-        // var url = window.location.origin + '/wp-admin/admin-ajax.php';
 
         $.post( yellowcoachescouk_ajax_object.ajax_url, data, function( output )
         {
