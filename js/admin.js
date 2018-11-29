@@ -74,6 +74,7 @@
         var needle = e.relatedTarget !== null ? e.relatedTarget.className : 'null';
 
         var haystack = [
+            'yellowcoachescouk-quote-search',
             'yellowcoachescouk-quote-anchor-admin',
             'yellowcoachescouk-admin-location-edit-anchor'
         ];
